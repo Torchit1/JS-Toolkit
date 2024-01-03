@@ -1,4 +1,4 @@
-# 🛠 Speed-Draft 🛠 
+# 🛠 JS Toolkit 🛠 
 
 
 Developed by **Jesse Symons**  
@@ -19,7 +19,7 @@ And it has very simple and quick installation.
 
     ▶ Install pyRevit  
     ▶ Open Extensions Menu  
-    ▶ Select Speed-Draft  
+    ▶ Select JS Toolkit  
     ▶ click on Install
 
 🎬 YouTube Tutorial - x
@@ -34,4 +34,4 @@ Contact me directly or just open an Issue on GitHub so I can have a look and sol
 ## Contact me:
 📨  Jesse_Steve_x@hotmail.com 
 🤵  https://www.linkedin.com/in/jessesymons/    
- 
+▶   x  
