@@ -3,7 +3,7 @@
 
 Developed by **Jesse Symons**  
 
-🛠 Speed-Draft is a FREE pyRevit extension that contains tools that should speed up Revit Drafting.   
+🛠 JS ToolKit is a FREE pyRevit extension that contains tools that should speed up Revit Drafting.   
 And once more: it's 𝐅𝐑𝐄𝐄. So you should take full advantage of this!
 
 
