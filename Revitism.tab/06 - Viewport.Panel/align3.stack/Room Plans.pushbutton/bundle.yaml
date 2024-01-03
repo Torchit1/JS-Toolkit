@@ -1,0 +1,5 @@
+title: "Room Plans"
+tooltip: |
+  This script automates the creation of room-specific plan views in Revit. It allows users to select rooms and generate detailed floor plans with customizable crop offsets and optional view templates.
+
+  Author: Jesse Symons

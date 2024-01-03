@@ -1,0 +1,5 @@
+title: "SheetComposer"
+tooltip: |
+  This script efficiently arranges selected views on a Revit sheet, utilizing specified viewport types and user-defined layout parameters. Ideal for organized and customizable sheet presentations.
+
+  Author: Jesse Symons

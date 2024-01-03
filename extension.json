@@ -1,0 +1,14 @@
+{
+    "builtin": "False",
+    "default_enabled": "True",
+    "type": "extension",
+    "rocket_mode_compatible": "False",
+    "name": "PyRevitPlus",
+    "description": "pyRevit extension focusing on speeding up drafting.",
+    "author": "Jesse Symons",
+    "author_profile": "https://github.com/Torchit1",
+    "url": "https://github.com/Torchit1/Speed-Draft.git",
+    "website": "https://www.linkedin.com/in/jessesymons/",
+    "image": "",
+    "dependencies": []
+}

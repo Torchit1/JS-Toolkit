@@ -1,0 +1,5 @@
+title: "CropBoxReset"
+tooltip: |
+  Resets the view's crop box based on the selected room in Revit. Ideal for focusing views on specific room boundaries in architectural designs.
+
+  Author: Jesse Symons

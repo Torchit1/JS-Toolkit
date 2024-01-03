@@ -1,0 +1,5 @@
+title: "View Arranger"
+tooltip: |
+  This script arranges views on a Revit sheet, using specified offsets, rows, columns, and spacings to create an organized layout. It's ideal for structured presentation of multiple views on a single sheet.
+
+  Author: Jesse Symons
