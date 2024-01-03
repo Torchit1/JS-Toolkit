@@ -1,9 +1,0 @@
-<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Room Analysis" Height="450" Width="800">
-    <Grid>
-        <Button x:Name="analyzeButton" Content="Analyze Rooms" Click="analyze_rooms" />
-        <!-- You can add other UI elements here later -->
-    </Grid>
-</Window>

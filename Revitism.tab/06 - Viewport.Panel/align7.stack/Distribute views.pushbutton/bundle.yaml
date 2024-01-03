@@ -1,5 +1,0 @@
-title: "Viewport Layout"
-tooltip: |
-  Automates the arrangement of viewports on a Revit sheet based on custom rows, columns, and offsets. The script ensures orderly and visually coherent layout management.
-
-  Author: Jesse Symons
