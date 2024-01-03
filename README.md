@@ -34,4 +34,4 @@ Contact me directly or just open an Issue on GitHub so I can have a look and sol
 ## Contact me:
 📨  Jesse_Steve_x@hotmail.com 
 🤵  https://www.linkedin.com/in/jessesymons/    
-▶   x  
+ 
