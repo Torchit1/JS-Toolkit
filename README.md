@@ -14,8 +14,7 @@ These tools are mainly developed in Revit 2021-2023.
 
 ---
 #### 💠 Installation 💠 
-Speed-Draft is part of pyRevit default Extensions. 
-And it has very simple and quick installation.  
+JS Toolkits quick installation.  
 
     ▶ Install pyRevit  
     ▶ Open Extensions Menu  
