@@ -37,9 +37,8 @@ def get_taggable_categories():
     """Retrieve a list of taggable category names."""
     doc = revit.doc
     categories = doc.Settings.Categories
-    taggable_categories = [cat.Name for cat in categories if cat.AllowsBoundParameters and cat.Name not in ["Rooms", "Spaces"]]
+    taggable_categories = [cat.Name for cat in categories if cat.AllowsBoundParameters]
     return sorted(taggable_categories)
-
 
 
 def load_configs():

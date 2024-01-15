@@ -1,0 +1,17 @@
+help_url: 'https://www.linkedin.com/in/jessesymons/'
+title: 
+  en_us: Tag Room+
+tooltip:
+  en_us: >-
+    Tag Rooms in multiple selected views with Room Tags, this currently ignores duplicates.
+    
+        Shift-Click:
+        
+            Window 1: Not yet implemented. 
+            
+            Window 2: Not yet implemented.
+            
+            This will be updated eventually to include which views and control settings.    
+
+# bundle author
+author: Jesse Symons
