@@ -42,40 +42,42 @@ def tag_elements_in_view(doc, view, elements, progress_bar):
     already_tagged_element_ids = set(tag.TaggedLocalElementId.IntegerValue for tag in existing_tags)
 
     for idx, element in enumerate(elements):
-        progress_bar.update_progress(idx, len(elements))
-
-        if toggle_settings['toggle_tagged'] and element.Id.IntegerValue in already_tagged_element_ids:
-            continue
-
-        if toggle_settings['toggle_visibility'] and not is_element_visible_in_view(doc, view, element):
-            continue
-
-        if not is_tag_type_loaded(doc, element.Category.Id) and element.Category.Id not in ignored_tag_types:
-            user_choice = forms.alert(
-                'No tag type loaded for category: {}\nDo you want to continue anyway?'.format(element.Category.Name),
-                yes=True, no=True, exitscript=True)
-            if user_choice == 'No':
-                return  # Exit the function if user chooses to cancel
-            ignored_tag_types.add(element.Category.Id)
-
-        center_point = get_projected_center_point(element)
-        if center_point is None:
-            continue
-
         try:
-            if element.Category.Name == "Windows" and view.ViewType == ViewType.FloorPlan and toggle_settings[
-                'tag_windows_in_plan']:
-                tag = IndependentTag.Create(doc, view.Id, Reference(element), True, TagMode.TM_ADDBY_CATEGORY,
-                                            TagOrientation.Horizontal, center_point)
+            progress_bar.update_progress(idx, len(elements))
+
+            if toggle_settings['toggle_tagged'] and element.Id.IntegerValue in already_tagged_element_ids:
+                continue
+
+            if toggle_settings['toggle_visibility'] and not is_element_visible_in_view(doc, view, element):
+                continue
+
+            if not is_tag_type_loaded(doc, element.Category.Id) and element.Category.Id not in ignored_tag_types:
+                user_choice = forms.alert(
+                    'No tag type loaded for category: {}\nDo you want to continue anyway?'.format(element.Category.Name),
+                    yes=True, no=True, exitscript=True)
+                if user_choice == 'No':
+                    return  # Exit the function if user chooses to cancel
+                ignored_tag_types.add(element.Category.Id)
+
+            center_point = get_projected_center_point(element)
+            if center_point is None:
+                continue
+
+            # Process of creating the tag
+            if element.Category.Name == "Windows" and view.ViewType == ViewType.FloorPlan and toggle_settings['tag_windows_in_plan']:
+                tag = IndependentTag.Create(doc, view.Id, Reference(element), True, TagMode.TM_ADDBY_CATEGORY, TagOrientation.Horizontal, center_point)
             else:
-                tag = IndependentTag.Create(doc, view.Id, Reference(element), False, TagMode.TM_ADDBY_CATEGORY,
-                                            TagOrientation.Horizontal, center_point)
+                tag = IndependentTag.Create(doc, view.Id, Reference(element), False, TagMode.TM_ADDBY_CATEGORY, TagOrientation.Horizontal, center_point)
 
             if toggle_settings['check_blank_tag'] and not tag.TagText.strip():
                 doc.Delete(tag.Id)
 
-        except Exception:
-            pass
+        except Exception as e:
+            # Log the element details and the error
+            element_details = "Element ID: {}, Category: {}, Name: {}".format(element.Id, element.Category.Name, getattr(element, 'Name', 'Unknown'))
+            print("Error processing element: " + element_details)
+            print("Error message: " + str(e))
+            continue  # Continue with the next element
 
 
 def select_categories(doc):
