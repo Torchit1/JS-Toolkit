@@ -84,38 +84,26 @@ def select_categories(doc):
     categories = doc.Settings.Categories
     specific_categories = config.load_configs()
     category_names = [cat.Name for cat in categories if cat.Name in specific_categories and cat.AllowsBoundParameters]
-    
-    try:
-        selected_category_names = forms.SelectFromList.show(category_names,
-                                                            multiselect=True,
-                                                            title='Select Categories to Tag',
-                                                            button_name='Select')
-        if selected_category_names is None:
-            raise SystemExit
-        selected_categories = [categories.get_Item(name) for name in selected_category_names]
-        print("Selected Categories: " + ", ".join(selected_category_names))  # Debugging output
-        return selected_categories
-    except Exception as e:
-        print("Error in select_categories: " + str(e))
-        raise
-
+    selected_category_names = forms.SelectFromList.show(category_names,
+                                                        multiselect=True,
+                                                        title='Select Categories to Tag',
+                                                        button_name='Select')
+    if selected_category_names is None:
+        raise SystemExit
+    return [categories.get_Item(name) for name in selected_category_names]
 
 
 def select_elements(doc, selected_categories):
     selected_elements = []
-    try:
-        for category in selected_categories:
+    for category in selected_categories:
+        if category.Id in element_cache:
+            selected_elements.extend(element_cache[category.Id])
+        else:
             elements_collector = FilteredElementCollector(doc).OfCategoryId(category.Id).WhereElementIsNotElementType()
             category_elements = [el for el in elements_collector]
             element_cache[category.Id] = category_elements
             selected_elements.extend(category_elements)
-            element_ids = [str(el.Id) for el in category_elements]
-            print("Collected elements for category {}: {}".format(category.Name, ", ".join(element_ids)))  # Log element IDs
-        return selected_elements
-    except Exception as e:
-        print("Error in select_elements: " + str(e))
-        raise
-
+    return selected_elements
 
 
 def select_views(doc):
@@ -123,20 +111,13 @@ def select_views(doc):
     target_view_types = [ViewType.FloorPlan, ViewType.Elevation, ViewType.Section]
     available_views = [v for v in all_views if v.ViewType in target_view_types and not v.IsTemplate]
     view_names = sorted([v.Name for v in available_views])
-    
-    try:
-        selected_view_names = forms.SelectFromList.show(view_names,
-                                                        multiselect=True,
-                                                        title='Select Views',
-                                                        button_name='Select')
-        if selected_view_names is None:
-            raise SystemExit
-        selected_views = [v for v in available_views if v.Name in selected_view_names]
-        print("Selected Views: " + ", ".join(selected_view_names))  # Debugging output
-        return selected_views
-    except Exception as e:
-        print("Error in select_views: " + str(e))
-        raise
+    selected_view_names = forms.SelectFromList.show(view_names,
+                                                    multiselect=True,
+                                                    title='Select Views',
+                                                    button_name='Select')
+    if selected_view_names is None:
+        raise SystemExit
+    return [v for v in available_views if v.Name in selected_view_names]
 
 
 def tag_elements_in_selected_views(doc, selected_views, selected_elements):
@@ -162,5 +143,4 @@ try:
 except SystemExit:
     pass
 except Exception as e:
-    print("General Error: " + str(e))
-
+    print("Error: " + str(e))
