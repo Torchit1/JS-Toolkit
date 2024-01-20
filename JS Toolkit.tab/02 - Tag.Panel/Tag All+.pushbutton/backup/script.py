@@ -36,16 +36,40 @@ def get_projected_center_point(element):
     return center
 
 
+def get_revit_version(app):
+    return int(app.VersionNumber)
+
 def tag_elements_in_view(doc, view, elements, progress_bar):
+    revit_version = get_revit_version(doc.Application)
+    print("Running on Revit version: {}".format(revit_version))  # Output the Revit version
+
     toggle_settings = config.load_toggle_settings()
     existing_tags = FilteredElementCollector(doc, view.Id).OfClass(IndependentTag)
-    already_tagged_element_ids = set(tag.TaggedLocalElementId.IntegerValue for tag in existing_tags)
+
+    already_tagged_element_ids = set()
+    for tag in existing_tags:
+        try:
+            if revit_version <= 2021:
+                # Revit 2021 and earlier
+                tagged_element = tag.GetTaggedLocalElement()
+                if tagged_element:
+                    # Ensure we get the ElementId, then its IntegerValue
+                    tagged_id = tagged_element.Id.IntegerValue
+                    already_tagged_element_ids.add(tagged_id)
+            else:
+                # Revit 2023 and later
+                tagged_elements = tag.GetTaggedLocalElements()
+                for te in tagged_elements:
+                    # Here too, make sure to use ElementId's IntegerValue
+                    already_tagged_element_ids.add(te.Id.IntegerValue)
+        except Exception as e:
+            print("Error processing tag: {}".format(str(e)))
 
     for idx, element in enumerate(elements):
         try:
             progress_bar.update_progress(idx, len(elements))
 
-            if toggle_settings['toggle_tagged'] and element.Id.IntegerValue in already_tagged_element_ids:
+            if element.Id.IntegerValue in already_tagged_element_ids:
                 continue
 
             if toggle_settings['toggle_visibility'] and not is_element_visible_in_view(doc, view, element):
@@ -63,7 +87,6 @@ def tag_elements_in_view(doc, view, elements, progress_bar):
             if center_point is None:
                 continue
 
-            # Process of creating the tag
             if element.Category.Name == "Windows" and view.ViewType == ViewType.FloorPlan and toggle_settings['tag_windows_in_plan']:
                 tag = IndependentTag.Create(doc, view.Id, Reference(element), True, TagMode.TM_ADDBY_CATEGORY, TagOrientation.Horizontal, center_point)
             else:
@@ -73,37 +96,47 @@ def tag_elements_in_view(doc, view, elements, progress_bar):
                 doc.Delete(tag.Id)
 
         except Exception as e:
-            # Log the element details and the error
-            element_details = "Element ID: {}, Category: {}, Name: {}".format(element.Id, element.Category.Name, getattr(element, 'Name', 'Unknown'))
-            print("Error processing element: " + element_details)
-            print("Error message: " + str(e))
-            continue  # Continue with the next element
+            print("Error processing element ID {}: {}".format(element.Id, str(e)))
+            continue
+
 
 
 def select_categories(doc):
     categories = doc.Settings.Categories
     specific_categories = config.load_configs()
     category_names = [cat.Name for cat in categories if cat.Name in specific_categories and cat.AllowsBoundParameters]
-    selected_category_names = forms.SelectFromList.show(category_names,
-                                                        multiselect=True,
-                                                        title='Select Categories to Tag',
-                                                        button_name='Select')
-    if selected_category_names is None:
-        raise SystemExit
-    return [categories.get_Item(name) for name in selected_category_names]
+    
+    try:
+        selected_category_names = forms.SelectFromList.show(category_names,
+                                                            multiselect=True,
+                                                            title='Select Categories to Tag',
+                                                            button_name='Select')
+        if selected_category_names is None:
+            raise SystemExit
+        selected_categories = [categories.get_Item(name) for name in selected_category_names]
+        print("Selected Categories: " + ", ".join(selected_category_names))  # Debugging output
+        return selected_categories
+    except Exception as e:
+        print("Error in select_categories: " + str(e))
+        raise
+
 
 
 def select_elements(doc, selected_categories):
     selected_elements = []
-    for category in selected_categories:
-        if category.Id in element_cache:
-            selected_elements.extend(element_cache[category.Id])
-        else:
+    try:
+        for category in selected_categories:
             elements_collector = FilteredElementCollector(doc).OfCategoryId(category.Id).WhereElementIsNotElementType()
             category_elements = [el for el in elements_collector]
             element_cache[category.Id] = category_elements
             selected_elements.extend(category_elements)
-    return selected_elements
+            element_ids = [str(el.Id) for el in category_elements]
+            print("Collected elements for category {}: {}".format(category.Name, ", ".join(element_ids)))  # Log element IDs
+        return selected_elements
+    except Exception as e:
+        print("Error in select_elements: " + str(e))
+        raise
+
 
 
 def select_views(doc):
@@ -111,13 +144,20 @@ def select_views(doc):
     target_view_types = [ViewType.FloorPlan, ViewType.Elevation, ViewType.Section]
     available_views = [v for v in all_views if v.ViewType in target_view_types and not v.IsTemplate]
     view_names = sorted([v.Name for v in available_views])
-    selected_view_names = forms.SelectFromList.show(view_names,
-                                                    multiselect=True,
-                                                    title='Select Views',
-                                                    button_name='Select')
-    if selected_view_names is None:
-        raise SystemExit
-    return [v for v in available_views if v.Name in selected_view_names]
+    
+    try:
+        selected_view_names = forms.SelectFromList.show(view_names,
+                                                        multiselect=True,
+                                                        title='Select Views',
+                                                        button_name='Select')
+        if selected_view_names is None:
+            raise SystemExit
+        selected_views = [v for v in available_views if v.Name in selected_view_names]
+        print("Selected Views: " + ", ".join(selected_view_names))  # Debugging output
+        return selected_views
+    except Exception as e:
+        print("Error in select_views: " + str(e))
+        raise
 
 
 def tag_elements_in_selected_views(doc, selected_views, selected_elements):
@@ -143,4 +183,5 @@ try:
 except SystemExit:
     pass
 except Exception as e:
-    print("Error: " + str(e))
+    print("General Error: " + str(e))
+

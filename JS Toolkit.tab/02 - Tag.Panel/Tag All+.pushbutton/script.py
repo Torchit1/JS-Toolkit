@@ -36,16 +36,40 @@ def get_projected_center_point(element):
     return center
 
 
+def get_revit_version(app):
+    return int(app.VersionNumber)
+
 def tag_elements_in_view(doc, view, elements, progress_bar):
+    revit_version = get_revit_version(doc.Application)
+    print("Running on Revit version: {}".format(revit_version))  # Output the Revit version
+
     toggle_settings = config.load_toggle_settings()
     existing_tags = FilteredElementCollector(doc, view.Id).OfClass(IndependentTag)
-    already_tagged_element_ids = set(tag.TaggedLocalElementId.IntegerValue for tag in existing_tags)
+
+    already_tagged_element_ids = set()
+    for tag in existing_tags:
+        try:
+            if revit_version <= 2021:
+                # Revit 2021 and earlier
+                tagged_element = tag.GetTaggedLocalElement()
+                if tagged_element:
+                    # Ensure we get the ElementId, then its IntegerValue
+                    tagged_id = tagged_element.Id.IntegerValue
+                    already_tagged_element_ids.add(tagged_id)
+            else:
+                # Revit 2023 and later
+                tagged_elements = tag.GetTaggedLocalElements()
+                for te in tagged_elements:
+                    # Here too, make sure to use ElementId's IntegerValue
+                    already_tagged_element_ids.add(te.Id.IntegerValue)
+        except Exception as e:
+            print("Error processing tag: {}".format(str(e)))
 
     for idx, element in enumerate(elements):
         try:
             progress_bar.update_progress(idx, len(elements))
 
-            if toggle_settings['toggle_tagged'] and element.Id.IntegerValue in already_tagged_element_ids:
+            if element.Id.IntegerValue in already_tagged_element_ids:
                 continue
 
             if toggle_settings['toggle_visibility'] and not is_element_visible_in_view(doc, view, element):
@@ -63,7 +87,6 @@ def tag_elements_in_view(doc, view, elements, progress_bar):
             if center_point is None:
                 continue
 
-            # Process of creating the tag
             if element.Category.Name == "Windows" and view.ViewType == ViewType.FloorPlan and toggle_settings['tag_windows_in_plan']:
                 tag = IndependentTag.Create(doc, view.Id, Reference(element), True, TagMode.TM_ADDBY_CATEGORY, TagOrientation.Horizontal, center_point)
             else:
@@ -73,11 +96,9 @@ def tag_elements_in_view(doc, view, elements, progress_bar):
                 doc.Delete(tag.Id)
 
         except Exception as e:
-            # Log the element details and the error
-            element_details = "Element ID: {}, Category: {}, Name: {}".format(element.Id, element.Category.Name, getattr(element, 'Name', 'Unknown'))
-            print("Error processing element: " + element_details)
-            print("Error message: " + str(e))
-            continue  # Continue with the next element
+            print("Error processing element ID {}: {}".format(element.Id, str(e)))
+            continue
+
 
 
 def select_categories(doc):
