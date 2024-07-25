@@ -1,27 +1,25 @@
-# 🛠 JS Toolkit 🛠 
+# 🛠 PyAtlasPro
 
 
-Developed by **Jesse Symons**  
+Developed by Jesse Symons
 
-🛠 JS ToolKit is a FREE pyRevit extension that contains tools that should speed up Revit Drafting.   
-And once more: it's 𝐅𝐑𝐄𝐄. So you should take full advantage of this!
+🛠 PyAtlasPro is a comprehensive and free PyRevit extension designed to enhance and accelerate your Revit drafting experience.
+Take full advantage of its powerful tools to streamline your workflow and improve productivity.
 
 
-
----
-### 📦 Revit Versions 📦
-These tools are mainly developed in Revit 2021-2023.
 
 ---
-#### 💠 Installation 💠 
-JS Toolkits quick installation.  
+### 📦Supported Revit Versions
+PyAtlasPro is compatible with Revit versions 2021 through 2023.
 
-    ▶ Install pyRevit  
-    ▶ Open Extensions Menu  
-    ▶ Select JS Toolkit  
-    ▶ click on Install
+---
+#### 💠 Installation Instructions
+Follow these simple steps to quickly install PyAtlasPro:
 
-🎬 YouTube Tutorial - x
+    ▶ Install PyRevit: Ensure PyRevit is installed on your system.
+    ▶ Open Extensions Menu: Navigate to the Extensions Menu within PyRevit.
+    ▶ Select PyAtlasPro: Choose PyAtlasPro from the list of available extensions. 
+    ▶ Click Install: Complete the installation process by clicking on Install.
 
 ---
 ### 🐛 Bugs
@@ -31,6 +29,12 @@ Contact me directly or just open an Issue on GitHub so I can have a look and sol
 ---
 
 ## Contact me:
+Feel free to get in touch with me for any inquiries or support:
+
 📨  Jesse_Steve_x@hotmail.com 
+
 🤵  https://www.linkedin.com/in/jessesymons/    
-▶   x  
+
+---
+By using PyAtlasPro, you are accessing a suite of tools that are designed to optimize your Revit drafting tasks, ensuring efficiency and precision in your projects. Download and install it today to start transforming your Revit experience.
+
