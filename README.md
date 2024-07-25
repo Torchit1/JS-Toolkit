@@ -32,7 +32,6 @@ Contact me directly or just open an Issue on GitHub so I can have a look and sol
 Feel free to get in touch with me for any inquiries or support:
 📨  Jesse_Steve_x@hotmail.com 
 🤵  https://www.linkedin.com/in/jessesymons/    
-▶   x  
 
 By using PyAtlasPro, you are accessing a suite of tools that are designed to optimize your Revit drafting tasks, ensuring efficiency and precision in your projects. Download and install it today to start transforming your Revit experience.
 
