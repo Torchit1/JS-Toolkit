@@ -3,12 +3,12 @@
     "default_enabled": "True",
     "type": "extension",
     "rocket_mode_compatible": "False",
-    "name": "JS-Toolkit",
-    "description": "pyRevit extension focusing on speeding up drafting.",
-    "author": "Jesse Symons",
+    "name": "PyAtlasPro",
+    "description": "A comprehensive extension for managing views, rooms, and dimensions in Revit",
+    "author": "Torchit1",
     "author_profile": "https://github.com/Torchit1",
-    "url": "https://github.com/Torchit1/JS-Toolkit.git",
-    "website": "https://www.linkedin.com/in/jessesymons/",
+    "url": "https://github.com/Torchit1/PyAtlasPro.git",
+    "website": "",
     "image": "",
     "dependencies": []
 }
