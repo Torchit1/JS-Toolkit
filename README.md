@@ -9,11 +9,11 @@ Take full advantage of its powerful tools to streamline your workflow and improv
 
 
 ---
-### 📦upported Revit Versions
+### 📦Supported Revit Versions
 PyAtlasPro is compatible with Revit versions 2021 through 2023.
 
 ---
-#### 💠 Installation Instructions  💠 
+#### 💠 Installation Instructions
 Follow these simple steps to quickly install PyAtlasPro:
 
     ▶ Install PyRevit: Ensure PyRevit is installed on your system.
@@ -33,5 +33,6 @@ Feel free to get in touch with me for any inquiries or support:
 📨  Jesse_Steve_x@hotmail.com 
 🤵  https://www.linkedin.com/in/jessesymons/    
 
+---
 By using PyAtlasPro, you are accessing a suite of tools that are designed to optimize your Revit drafting tasks, ensuring efficiency and precision in your projects. Download and install it today to start transforming your Revit experience.
 
