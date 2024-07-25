@@ -1,0 +1,5 @@
+title: "Wall Check"
+tooltip: |
+  The provided script is designed to identify and highlight walls in a Revit project that do not have whole number lengths (in millimeters). 
+
+  Author: Jesse Symons
