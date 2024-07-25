@@ -30,7 +30,9 @@ Contact me directly or just open an Issue on GitHub so I can have a look and sol
 
 ## Contact me:
 Feel free to get in touch with me for any inquiries or support:
+
 📨  Jesse_Steve_x@hotmail.com 
+
 🤵  https://www.linkedin.com/in/jessesymons/    
 
 ---
